@@ -50,7 +50,7 @@ router.get('/:id', hacksController.getHackById);
 //     res.status(200).json({message:"deleted successfully!"})
 
 // })
-router.delete('/:id',hacksController.delete);
+router.delete('/:id',hacksController.deleteHack);
 
 //update
 router.put('/:id', hacksController.updateHack);

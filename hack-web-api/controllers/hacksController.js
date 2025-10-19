@@ -1,46 +1,76 @@
-const {Hack} = require('../models');
-let hacks = []
+const Hack = require('../models/Hack');
 
-// exports.getAllHacks = (req, res) => {
-//     res.json(hacks);
-// };
-
+// ✅ Get all hacks
 exports.getAllHacks = async (req, res) => {
-    const hacks = await Hack.findAll({include:['project']});
+  try {
+    const hacks = await Hack.findAll();
     res.json(hacks);
-}
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
-exports.getHackById = (req, res) => {
-    const hack = hacks.find(u => u.id === parseInt(req.params.id));
-    hack ? res.json(user) : res.status(404).json({message:'User not found'});
-}
+// ✅ Get hack by ID
+exports.getHackById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const hack = await Hack.findByPk(id); // Sequelize method
 
-exports.createHack = (req, res) => {
-      const newHack = req.body;
-    hacks.push(newHack);
-    res.send("hack added successfully!");
-}
-exports.delete = (req,res)=>{
-    const hack = hacks.find(u =>u.id === parseInt(req.params.id));
-    hack ? res.json(user) : res.status(404).json({message:'User not found'})
-    hacks.splice(hack,1);
-}
-
-exports.updateHack = (req,res)=>{
-   const hack = hacks.find(h => h.id === id);
-
-    if(!hack){
-        return res.status(404).json({message:"hack not found"});
+    if (!hack) {
+      return res.status(404).json({ message: 'Hack not found' });
     }
 
-    hack.id = req.body.id || hack.id;
-    hack.name = req.body.name || hack.name;
-    hack.theme = req.body.theme || hack.theme;
+    res.json(hack);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// ✅ Create new hack
+exports.createHack = async (req, res) => {
+  try {
+    const newHack = await Hack.create(req.body);
+    res.status(201).json(newHack);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// ✅ Update hack
+exports.updateHack = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const hack = await Hack.findByPk(id);
+
+    if (!hack) {
+      return res.status(404).json({ message: 'Hack not found' });
+    }
+
+    await hack.update(req.body);
 
     res.status(200).json({
-        message:'hack updated!',
-        hack:hack
-    })
-}
+      message: 'Hack updated successfully',
+      hack,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
-exports.create
+// ✅ Delete hack
+exports.deleteHack = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const hack = await Hack.findByPk(id);
+
+    if (!hack) {
+      return res.status(404).json({ message: 'Hack not found' });
+    }
+
+    await hack.destroy();
+
+    res.json({ message: 'Hack deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
