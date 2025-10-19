@@ -1,6 +1,6 @@
 const Hack = require('../models/Hack');
 
-// ✅ Get all hacks
+// Get all hacks
 exports.getAllHacks = async (req, res) => {
   try {
     const hacks = await Hack.findAll();
@@ -10,7 +10,7 @@ exports.getAllHacks = async (req, res) => {
   }
 };
 
-// ✅ Get hack by ID
+//  Get hack by ID
 exports.getHackById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -26,7 +26,7 @@ exports.getHackById = async (req, res) => {
   }
 };
 
-// ✅ Create new hack
+//  Create new hack
 exports.createHack = async (req, res) => {
   try {
     const newHack = await Hack.create(req.body);
@@ -36,7 +36,7 @@ exports.createHack = async (req, res) => {
   }
 };
 
-// ✅ Update hack
+//  Update hack
 exports.updateHack = async (req, res) => {
   try {
     const { id } = req.params;
@@ -57,7 +57,7 @@ exports.updateHack = async (req, res) => {
   }
 };
 
-// ✅ Delete hack
+//  Delete hack
 exports.deleteHack = async (req, res) => {
   try {
     const { id } = req.params;

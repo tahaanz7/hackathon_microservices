@@ -1,7 +1,8 @@
-const Project = require('./Project');
 const Hack = require('./Hack');
+const Criteria = require('./Criteria')
 
-Hack.hasMany(Project, {foreignKey:'idHack', as:'projects'});
-Project.belongsTo(Hack,{foreignKey:'idHack', as:'hack'})
+Hack.hasMany(Critere, { foreignKey: 'hackId', as: 'criteres' });
+Criteria.belongsTo(Hack, { foreignKey: 'hackId', as: 'hack' });
+
 
 module.exports = {Hack, Project};
